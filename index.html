@@ -13,23 +13,36 @@
             -webkit-user-select: none;
             -webkit-touch-callout: none;
         }
-
         html {
             font-size: 100%;
+            transition: font-size 0.25s ease;
         }
-
         body {
             font-size: 100%;
             background: #ffffff;
             font-family: 'Times New Roman', 'Georgia', 'Palatino', 'Charter', 'STSong', '华文宋体', 'PingFang SC', serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             padding: 2rem 1rem;
             color: #1a1a1a;
             overflow-x: hidden;
             position: relative;
+            transition: filter 0.35s ease;
+        }
+        body.dark-mode {
+            filter: invert(0.92) hue-rotate(180deg);
+            background: #111;
+        }
+        body.dark-mode #particle-canvas,
+        body.dark-mode #ripple-grid,
+        body.dark-mode #guideMaskCanvas {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        body.dark-mode #ripple-grid {
+            mix-blend-mode: screen;
+            opacity: 0.5;
         }
         body.no-scroll {
             overflow: hidden;
@@ -50,7 +63,6 @@
             width: 100%;
             height: 100%;
         }
-
         .splash-screen {
             position: fixed;
             top: 0;
@@ -119,8 +131,9 @@
             width: 78px;
             height: 78px;
             border-radius: 50%;
-            background: #0a0a0a;
-            color: #fff;
+            background: #ffffff;
+            color: #0a0a0a;
+            border: 1.5px solid #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -131,12 +144,14 @@
             font-family: 'Georgia', serif;
             text-align: center;
             line-height: 1.3;
+            pointer-events: none;
         }
         .center-btn:active {
             transform: translate(-50%, -50%) scale(0.88);
         }
         .center-btn.done {
-            background: #2a2a2a;
+            background: #ffffff;
+            border: 1.5px solid #0a0a0a;
         }
         .checkmark {
             width: 30px;
@@ -146,26 +161,25 @@
         .checkmark::before {
             content: '';
             position: absolute;
-            left: 6px;
-            top: 14px;
-            width: 8px;
-            height: 3px;
-            background: white;
+            left: 7px;
+            top: 15px;
+            width: 7px;
+            height: 1.5px;
+            background: #0a0a0a;
             transform: rotate(45deg);
-            border-radius: 1px;
+            border-radius: 0.5px;
         }
         .checkmark::after {
             content: '';
             position: absolute;
             left: 10px;
-            top: 12px;
-            width: 16px;
-            height: 3px;
-            background: white;
+            top: 13px;
+            width: 14px;
+            height: 1.5px;
+            background: #0a0a0a;
             transform: rotate(-45deg);
-            border-radius: 1px;
+            border-radius: 0.5px;
         }
-
         .splash-sub {
             font-size: 0.95rem;
             color: #777;
@@ -183,7 +197,6 @@
             margin-top: 4px;
             letter-spacing: 1px;
         }
-
         .click-hint {
             position: fixed;
             color: #0a0a0a;
@@ -204,7 +217,6 @@
             font-weight: 400;
             color: #000000;
         }
-
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -215,7 +227,6 @@
             z-index: 9999;
             opacity: 0.5;
         }
-
         #ripple-grid {
             position: fixed;
             top: 0;
@@ -226,8 +237,8 @@
             z-index: 1;
             mix-blend-mode: multiply;
             opacity: 0.7;
+            transition: mix-blend-mode 0.3s ease, opacity 0.3s ease;
         }
-
         .page-container {
             max-width: 700px;
             width: 100%;
@@ -235,12 +246,13 @@
             border: 1px solid #0a0a0a;
             box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.06);
             padding: 2.2rem 2rem;
-            transition: filter 0.3s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+            transition: filter 0.3s ease, border-color 0.6s ease, box-shadow 0.6s ease, border-radius 0.5s ease;
             font-weight: 350;
             letter-spacing: 0.02em;
             position: relative;
             z-index: 100;
             overflow: hidden;
+            border-radius: 0;
         }
         .page-container.no-frame {
             border-color: transparent;
@@ -250,7 +262,6 @@
             border-color: #0a0a0a;
             box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.06);
         }
-
         .nav-ui {
             display: flex;
             justify-content: space-between;
@@ -284,6 +295,7 @@
             align-items: center;
             gap: 4px;
             box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.04);
+            pointer-events: auto;
         }
         .nav-btn:hover {
             background: #0a0a0a;
@@ -296,7 +308,6 @@
             stroke: currentColor;
             stroke-width: 2;
         }
-
         .divider {
             border: 0;
             height: 1px;
@@ -304,7 +315,6 @@
             margin: 2rem 0 1.8rem 0;
             opacity: 0.5;
         }
-
         .section-title {
             font-size: 0.85rem;
             text-transform: uppercase;
@@ -318,7 +328,6 @@
             font-family: 'Times New Roman', 'Georgia', serif;
             opacity: 0.8;
         }
-
         .overview-grid {
             display: flex;
             flex-direction: column;
@@ -340,7 +349,7 @@
             width: 100%;
             box-sizing: border-box;
             flex-shrink: 0;
-            transition: padding 0.15s ease, margin 0.15s ease;
+            transition: padding 0.15s ease, margin 0.15s ease, font-size 0.2s ease;
         }
         .bullet {
             font-weight: 400;
@@ -373,7 +382,6 @@
             letter-spacing: 0.5px;
             border: 1px solid #ccc;
         }
-
         .price-grid {
             display: flex;
             flex-wrap: wrap;
@@ -399,7 +407,7 @@
             position: relative;
             z-index: 1;
             box-sizing: border-box;
-            transition: padding 0.15s ease, margin 0.15s ease, transform 0.15s ease;
+            transition: padding 0.15s ease, margin 0.15s ease, transform 0.15s ease, font-size 0.2s ease;
         }
         .price-card:hover {
             box-shadow: 1px 1px 0 #aaaaaa;
@@ -434,7 +442,6 @@
             font-family: 'Times New Roman', serif;
             transition: font-size 0.15s ease;
         }
-
         .extra-row {
             display: flex;
             gap: 1.2rem;
@@ -460,7 +467,6 @@
             font-family: 'Georgia', serif;
             transition: font-size 0.15s ease, padding 0.15s ease;
         }
-
         .rule-box {
             background: #fafafa;
             border-left: 4px solid #0a0a0a;
@@ -494,7 +500,6 @@
             flex-shrink: 0;
             transition: font-size 0.15s ease;
         }
-
         .check-list {
             list-style: none;
             display: flex;
@@ -519,7 +524,7 @@
             z-index: 1;
             width: 100%;
             box-sizing: border-box;
-            transition: padding 0.15s ease, margin 0.15s ease;
+            transition: padding 0.15s ease, margin 0.15s ease, font-size 0.2s ease;
         }
         .check-icon {
             font-size: 1.1rem;
@@ -531,7 +536,6 @@
             flex-shrink: 0;
             transition: font-size 0.15s ease;
         }
-
         .statement {
             font-style: italic;
             background: #111;
@@ -549,9 +553,8 @@
             z-index: 1;
             width: 100%;
             box-sizing: border-box;
-            transition: padding 0.15s ease, margin 0.15s ease;
+            transition: padding 0.15s ease, margin 0.15s ease, font-size 0.2s ease;
         }
-
         .footnote {
             display: flex;
             flex-direction: column;
@@ -575,7 +578,6 @@
             box-sizing: border-box;
             transition: padding 0.15s ease, margin 0.15s ease;
         }
-
         .signature {
             text-align: right;
             font-weight: 400;
@@ -598,7 +600,6 @@
             box-sizing: border-box;
             transition: padding 0.15s ease, margin 0.15s ease;
         }
-
         button {
             background: transparent;
             border: 2px solid #0a0a0a;
@@ -617,7 +618,6 @@
             background: #0a0a0a;
             color: white;
         }
-
         .satellite-time {
             text-align: center;
             font-size: 0.65rem;
@@ -636,7 +636,6 @@
         .satellite-time.visible {
             opacity: 0.7;
         }
-
         .underage-notice {
             text-align: center;
             font-size: 0.8rem;
@@ -654,7 +653,6 @@
         .underage-notice.visible {
             opacity: 1;
         }
-
         .animate-item {
             opacity: 0;
             transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -669,7 +667,6 @@
             opacity: 1;
             transform: translateX(0) scale(1);
         }
-
         .entry-overlay {
             position: fixed;
             top: 0;
@@ -709,7 +706,6 @@
             display: inline-block;
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-
         .click-active {
             z-index: 10 !important;
             position: relative;
@@ -763,7 +759,6 @@
         .click-active .extra-row {
             font-size: 1.0rem !important;
         }
-
         .squeeze .price-amount {
             font-size: 1.7rem !important;
         }
@@ -822,7 +817,6 @@
             opacity: 0.7 !important;
             transform: scale(0.96) !important;
         }
-
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -849,8 +843,8 @@
             overflow-y: auto;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: none;
             flex-direction: column;
             padding: 28px 24px;
             width: 420px;
@@ -860,6 +854,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.7);
+            transform-origin: center;
         }
         .menu-window.expanded {
             opacity: 1;
@@ -906,12 +901,87 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            font-size: 18px;
-            color: #999;
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+            color: #0a0a0a;
             cursor: pointer;
             transition: 0.3s;
             font-family: 'Georgia', serif;
-            padding: 0 4px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .menu-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: #0a0a0a;
+            stroke-width: 2;
+            fill: none;
+        }
+        .menu-back-arrow {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+            color: #0a0a0a;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Georgia', serif;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .menu-back-arrow svg {
+            width: 18px;
+            height: 18px;
+            stroke: #0a0a0a;
+            stroke-width: 2;
+            fill: none;
+        }
+        .menu-back-arrow.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .menu-close.hidden-close {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .menu-title-slide {
+            transition: transform 0.35s ease, opacity 0.25s ease;
+        }
+        .menu-title-slide.out {
+            transform: translateX(-26px);
+            opacity: 0;
+        }
+        .menu-window .menu-content .settings-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            pointer-events: auto;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: max-height 0.35s ease, opacity 0.3s ease, transform 0.35s ease;
+        }
+        .menu-window .menu-content .settings-panel.open {
+            max-height: 400px;
+            opacity: 1;
+            transform: scaleY(1);
         }
         .menu-window .menu-content .menu-item {
             font-size: 0.92rem;
@@ -937,19 +1007,11 @@
             transform: translateX(5px);
             transition: transform 0.1s ease;
         }
-        .menu-window .menu-content .menu-item {
-            transition: transform 0.2s ease;
-        }
         .menu-window .menu-content .menu-item .icon {
             font-size: 1.1rem;
             opacity: 0.5;
             font-family: 'Courier New', monospace;
         }
-        .menu-close:hover {
-            color: #0a0a0a;
-            transform: translateY(-50%) rotate(90deg);
-        }
-
         .font-size-panel {
             position: fixed;
             bottom: 30px;
@@ -1047,7 +1109,6 @@
             background: #333;
             color: #fff;
         }
-
         .toast {
             position: fixed;
             top: 20px;
@@ -1065,7 +1126,6 @@
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
-
         .guide-overlay {
             position: fixed;
             top: 0;
@@ -1090,54 +1150,55 @@
             height: 100vh;
             z-index: 9996;
             pointer-events: none;
-        }
-        .guide-finger,
-        .guide-trail {
             display: none;
         }
-
         .guide-tooltip {
             position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 10001;
             pointer-events: none;
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            padding: 10px 16px;
-            color: #fff;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid #0a0a0a;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.08);
+            padding: 14px 20px;
+            color: #1a1a1a;
             text-align: center;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, top 0.3s ease, bottom 0.3s ease;
             max-width: 380px;
             width: auto;
             white-space: normal;
+            border-radius: 0;
+            backdrop-filter: blur(4px);
         }
         .guide-tooltip.active {
             opacity: 1;
         }
         #guideTooltipText {
-            font-size: 1.1rem;
+            font-size: 1.0rem;
             line-height: 1.5;
             letter-spacing: 1px;
+            display: block;
+            margin-bottom: 10px;
         }
         .guide-tooltip .guide-btns {
             display: flex;
             gap: 14px;
             justify-content: center;
-            margin-top: 14px;
             pointer-events: auto;
         }
         .guide-tooltip .guide-btns button {
-            font-size: 0.9rem;
-            padding: 0.4rem 1.2rem;
+            font-size: 0.85rem;
+            padding: 0.35rem 1.1rem;
             letter-spacing: 1px;
             background: white;
             border: 2px solid #0a0a0a;
             color: #0a0a0a;
             font-family: 'Georgia', serif;
             cursor: pointer;
-            border-radius: 20px;
+            border-radius: 0;
             box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.04);
             transition: 0.2s;
             text-transform: uppercase;
@@ -1154,7 +1215,6 @@
             background: #222;
             color: #fff;
         }
-
         .first-visit-modal {
             position: fixed;
             top: 50%;
@@ -1198,6 +1258,7 @@
             letter-spacing: 1px;
             min-width: 80px;
             border: 1px solid #0a0a0a;
+            border-radius: 0;
         }
         .first-visit-modal .fv-btns button.btn-black {
             background: #0a0a0a;
@@ -1220,7 +1281,6 @@
             opacity: 1;
             pointer-events: auto;
         }
-
         .entry-title-container {
             text-align: center;
             font-weight: 400;
@@ -1237,7 +1297,6 @@
         .entry-title-container.visible {
             opacity: 1;
         }
-
         .guide-confirm-modal {
             position: fixed;
             top: 50%;
@@ -1284,7 +1343,7 @@
             color: #0a0a0a;
             font-family: 'Georgia', serif;
             cursor: pointer;
-            border-radius: 20px;
+            border-radius: 0;
             box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.04);
             transition: 0.2s;
             text-transform: uppercase;
@@ -1319,124 +1378,105 @@
             opacity: 1;
             pointer-events: auto;
         }
-
-        .snake-modal {
-            background: #ffffff;
-            border: 1px solid #0a0a0a;
-            box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.06);
-            padding: 2rem 1.8rem;
-            max-width: 700px;
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }
-        .snake-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.2rem;
-        }
-        .snake-title {
-            font-family: 'Times New Roman', 'Georgia', serif;
-            font-size: 1.8rem;
-            letter-spacing: 4px;
-            color: #0a0a0a;
-            font-weight: 400;
-        }
-        .snake-close-btn {
-            background: transparent;
-            border: 2px solid #0a0a0a;
-            border-radius: 20px;
-            padding: 0.3rem 0.9rem;
-            font-size: 0.9rem;
-            font-family: 'Georgia', serif;
-            font-weight: 400;
-            color: #0a0a0a;
-            cursor: pointer;
-            transition: 0.2s;
-            background: white;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.04);
-            text-transform: uppercase;
-        }
-        .snake-close-btn:hover {
-            background: #0a0a0a;
-            color: white;
-        }
-        .snake-canvas-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: #fafafa;
-            border: 1px solid #ddd;
-            touch-action: none;
-            overflow: hidden;
-        }
-        .snake-joystick-area {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 0.8rem;
-        }
-        .snake-joystick-base {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-        .snake-joystick-base-inner {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.05);
-            border: 2px solid #0a0a0a;
+        .screenshot-backdrop {
+            position: fixed;
             top: 0;
             left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 1000003;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
         }
-        .snake-joystick-thumb {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #0a0a0a;
+        .screenshot-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .screenshot-modal {
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0.8);
+            background: #fff;
+            border: 1px solid #0a0a0a;
+            box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.08);
+            z-index: 1000004;
+            padding: 30px 26px;
+            font-family: 'Georgia', serif;
+            text-align: center;
+            opacity: 0;
             pointer-events: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 90vw;
+            width: 340px;
         }
-      .overview-item.animate-item:nth-child(1) { transition-delay: 0.00s; }
-.overview-item.animate-item:nth-child(2) { transition-delay: 0.02s; }
-.overview-item.animate-item:nth-child(3) { transition-delay: 0.04s; }
-.overview-item.animate-item:nth-child(4) { transition-delay: 0.06s; }
-.overview-item.animate-item:nth-child(5) { transition-delay: 0.08s; }
-.overview-item.animate-item:nth-child(6) { transition-delay: 0.10s; }
-.overview-item.animate-item:nth-child(7) { transition-delay: 0.12s; }
-.overview-item.animate-item:nth-child(8) { transition-delay: 0.14s; }
-.overview-item.animate-item:nth-child(9) { transition-delay: 0.16s; }
-
-.check-list li.animate-item:nth-child(1) { transition-delay: 0.00s; }
-.check-list li.animate-item:nth-child(2) { transition-delay: 0.02s; }
-.check-list li.animate-item:nth-child(3) { transition-delay: 0.04s; }
-.check-list li.animate-item:nth-child(4) { transition-delay: 0.06s; }
-.check-list li.animate-item:nth-child(5) { transition-delay: 0.08s; }
-.check-list li.animate-item:nth-child(6) { transition-delay: 0.10s; }
-.check-list li.animate-item:nth-child(7) { transition-delay: 0.12s; }
-.check-list li.animate-item:nth-child(8) { transition-delay: 0.14s; }
-.check-list li.animate-item:nth-child(9) { transition-delay: 0.16s; }
-
-.price-card.animate-item:nth-child(1) { transition-delay: 0.00s; }
-.price-card.animate-item:nth-child(2) { transition-delay: 0.03s; }
-.price-card.animate-item:nth-child(3) { transition-delay: 0.06s; }
-
-.rule-item.animate-item:nth-child(1) { transition-delay: 0.00s; }
-.rule-item.animate-item:nth-child(2) { transition-delay: 0.03s; }
-
-.footnote div.animate-item:nth-child(1) { transition-delay: 0.00s; }
-.footnote div.animate-item:nth-child(2) { transition-delay: 0.03s; }
+        .screenshot-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .ss-icon {
+            font-size: 2.2rem;
+            color: #0a0a0a;
+            margin-bottom: 16px;
+            animation: ssPulse 1.2s ease-in-out infinite;
+        }
+        @keyframes ssPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        .ss-text {
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            letter-spacing: 1px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            font-style: italic;
+            opacity: 0.85;
+        }
+        .ss-actions button {
+            background: #0a0a0a;
+            color: #fff;
+            border: 2px solid #0a0a0a;
+            padding: 8px 28px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-radius: 0;
+        }
+        .ss-actions button:hover {
+            background: #333;
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            .page-container {
+                padding: 1.5rem 1rem;
+                box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.06);
+            }
+            .page-container.content-ready {
+                box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.06);
+            }
+            .menu-window {
+                padding: 20px 16px;
+                width: 92vw !important;
+            }
+            .menu-window.expanded {
+                width: 92vw !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1448,9 +1488,7 @@
                     <circle class="ring-bg" cx="65" cy="65" r="56" />
                     <circle class="ring-progress" id="ringProgress" cx="65" cy="65" r="56" />
                 </svg>
-                <div class="center-btn" id="centerBtn">
-                    重新<br>进入
-                </div>
+                <div class="center-btn" id="centerBtn">重新<br>进入</div>
             </div>
             <div class="splash-sub">
                 [自动回复] 消息已发出，但被对方拒收了
@@ -1485,29 +1523,29 @@
 
         <div class="entry-title-container hidden-init" id="entryTitleFinal">❖ HI ❖</div>
         <div class="satellite-time hidden-init" id="sat-time"></div>
-        <div class="underage-notice hidden-init" id="underageNotice">『 未成年人请在监护人的陪同下游玩和下单 』</div>
+        <div class="underage-notice hidden-init" id="underageNotice">『 由于国家规定，未成年人禁止接触陪玩陪聊 。付款前确保自己法律上已满18周岁、付款默认已成年。』</div>
 
-        <div style="height: 12px; background: radial-gradient(circle, transparent 3.2px, #0a0a0a 4.8px, transparent 4.2px) repeat-x; background-size: 22px 12px; margin: 1.5rem 1%; opacity: 0.4;"></div>
+        <div class="animate-item left" style="height: 12px; background: radial-gradient(circle, transparent 3.2px, #0a0a0a 4.8px, transparent 4.2px) repeat-x; background-size: 22px 12px; margin: 1.5rem 1%; opacity: 0.4; transition-delay: 0.05s;"></div>
         <div class="section-title animate-item left" style="font-weight: 300;color: #777; border-left-color: #888;">概述 ◇ 关于我</div>
         <div class="overview-grid" id="overviewGrid"></div>
 
-        <hr class="divider" style="margin-top: 1.5rem;">
-        <div style="height: 12px; background: radial-gradient(circle, transparent 3.2px, #0a0a0a 4.8px, transparent 4.2px) repeat-x; background-size: 22px 12px; margin: 1.5rem 1%; opacity: 0.4;"></div>
+        <hr class="divider animate-item left" style="transition-delay: 0.05s;">
+        <div class="animate-item left" style="height: 12px; background: radial-gradient(circle, transparent 3.2px, #0a0a0a 4.8px, transparent 4.2px) repeat-x; background-size: 22px 12px; margin: 1.5rem 1%; opacity: 0.4; transition-delay: 0.05s;"></div>
         <div class="section-title animate-item left" style="border-left: none; text-align: center; padding-left: 0;font-weight: 300;color: #777; letter-spacing: 6px;">◇ 价格 ◇</div>
         <div class="price-grid" id="priceGrid"></div>
         <div class="extra-row animate-item left" id="extraRow"></div>
         <div class="rule-box" style="border-left: none; padding-left: 0; background: #fcfcfc;" id="ruleBox"></div>
 
-        <div style="height: 12px; background: radial-gradient(circle, transparent 3.2px, #0a0a0a 4.8px, transparent 4.2px) repeat-x; background-size: 22px 12px; margin: 1.5rem 1%; opacity: 0.4;"></div>
-        <hr class="divider">
+        <div class="animate-item left" style="height: 12px; background: radial-gradient(circle, transparent 3.2px, #0a0a0a 4.8px, transparent 4.2px) repeat-x; background-size: 22px 12px; margin: 1.5rem 1%; opacity: 0.4; transition-delay: 0.05s;"></div>
+        <hr class="divider animate-item left" style="transition-delay: 0.05s;">
         <div class="section-title animate-item left" style="font-weight: 300;color: #777;">其他须知 ◇ 给路人</div>
         <ul class="check-list" id="checkList"></ul>
 
-        <hr class="divider">
+        <hr class="divider animate-item left" style="transition-delay: 0.05s;">
         <div class="statement animate-item left" id="statementBlock">声明：我有义务保密对话内容，服务期间所有对话不会对外提及或用于任何非服务目的。</div>
         <div class="footnote" id="footnoteBlock">
             <div class="animate-item right"><span style="font-weight:400;letter-spacing:1px;">◇ 碎碎念：</span>发现我主要靠内推，点我的不多，结束后要是喜欢我可以推荐给你的朋友！</div>
-            <div class="animate-item left"><span style="font-weight:400;letter-spacing:1px;">◇ 下单前：</span>私信告知雷点、需要我完成和注意的、留好友码。</div>
+            <div class="animate-item left"><span style="font-weight:400;letter-spacing:1px;">◇ ：</span>私信告知雷点、需要我完成和注意的、留好友码。</div>
         </div>
         <div class="animate-item left" id="otherSupplement" style="margin-top: 1rem; padding: 0.6rem 0; font-size: 0.88rem; color: #2b2b2b; border-top: 1px solid #ccc; font-family: 'Georgia', serif; width:100%; box-sizing:border-box;">
             <span style="font-weight: 400; letter-spacing:1px;">❖ 其他补充：</span>没对象、没结婚、不卡单主性别、熟人可下单、评论区可打广告或发其他内容、可加联系方式、没尝试过"三恋"但点过。
@@ -1527,15 +1565,28 @@
     <div class="menu-window" id="menuWindow">
         <div class="menu-content">
             <div class="menu-title">
-                <span>菜单</span>
-                <button class="menu-close" id="menuClose">✕</button>
+                <button class="menu-back-arrow" id="menuBackArrow" style="display:none;">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <span id="menuTitleText">菜单</span>
+                <button class="menu-close" id="menuClose">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
             </div>
             <div class="menu-item" data-action="announcement"><span class="icon">◆</span> 公告</div>
-            <div class="menu-item" data-action="fontSize"><span class="icon">◆</span> 字体大小</div>
+            <div class="menu-item" data-action="settings"><span class="icon">◆</span> 设置</div>
             <div class="menu-item" data-action="guestbook"><span class="icon">◆</span> 路人留言</div>
             <div class="menu-item" data-action="guide"><span class="icon">◆</span> 新手指引</div>
-            <div class="menu-item" data-action="snake"><span class="icon">◆</span> 贪吃蛇</div>
             <div class="menu-item" data-action="other"><span class="icon">◆</span> 其他</div>
+            <div class="settings-panel" id="settingsPanel" style="display: none;">
+                <div class="menu-item" data-action="fontSize"><span class="icon">◆</span> 字体大小</div>
+                <div class="menu-item" data-action="darkMode"><span class="icon">◆</span> 深色模式 <span id="darkModeStatus" style="margin-left:auto;font-size:0.7rem;opacity:0.5;"></span></div>
+                <div class="menu-item" data-action="eyeCare"><span class="icon">◆</span> 护眼模式</div>
+                <div class="menu-item" data-action="invert"><span class="icon">◆</span> 颜色反转</div>
+                <div class="menu-item" data-action="sound"><span class="icon">◆</span> 声音</div>
+                <div class="menu-item" data-action="feedback"><span class="icon">◆</span> 问题反馈</div>
+                <div class="menu-item" data-action="help"><span class="icon">◆</span> 帮助</div>
+            </div>
         </div>
     </div>
 
@@ -1564,10 +1615,6 @@
 
     <div class="guide-overlay" id="guideOverlay"></div>
     <canvas id="guideMaskCanvas"></canvas>
-    <div class="guide-trail" id="guideTrail"></div>
-    <div class="guide-finger" id="guideFinger">
-        <img src="finger.png" alt="手指" style="display: block;">
-    </div>
 
     <div class="guide-confirm-backdrop" id="guideConfirmBackdrop"></div>
     <div class="guide-confirm-modal" id="guideConfirmModal">
@@ -1582,8 +1629,51 @@
         <div id="guideTooltipBtns" class="guide-btns"></div>
     </div>
 
+    <div class="screenshot-backdrop" id="screenshotBackdrop"></div>
+    <div class="screenshot-modal" id="screenshotModal">
+        <div class="ss-icon">❖</div>
+        <div class="ss-text" id="ssText">？……你怎么截图啦！</div>
+        <div class="ss-actions">
+            <button id="ssClose">收下</button>
+        </div>
+    </div>
+
     <script>
         (function() {
+            // ========== 音频系统 ==========
+            // 背景音乐文件名: alex-morgan-chill-545522.mp3
+            // 点击音效文件名: click-sound.mp3  ← 请将你的音效文件命名为 click-sound.mp3 并放在同目录
+            const bgAudio = new Audio();
+            bgAudio.src = 'alex-morgan-chill-545522.mp3';
+            bgAudio.loop = true;
+            bgAudio.volume = 0.4;
+            bgAudio.preload = 'auto';
+            bgAudio.load();
+
+            const clickSound = new Audio();
+            clickSound.src = 'click-sound.mp3';
+            clickSound.volume = 0.35;
+            clickSound.preload = 'auto';
+            clickSound.load();
+            let soundEnabled = true;
+            let lastClickSoundTime = 0;
+
+            function playClickSound() {
+                if (!soundEnabled) return;
+                const now = Date.now();
+                if (now - lastClickSoundTime < 80) return;
+                lastClickSoundTime = now;
+                clickSound.currentTime = 0;
+                clickSound.play().catch(() => {});
+            }
+
+            // 给所有按钮添加音效
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('button, .menu-item, .price-card, .overview-item, .rule-item, .check-list li, .statement, .footnote div, .signature, .extra-row, .ring-container');
+                if (btn) playClickSound();
+            }, true);
+
+            // ========== 核心DOM元素 ==========
             const splash = document.getElementById('splash');
             const ringProgress = document.getElementById('ringProgress');
             const centerBtn = document.getElementById('centerBtn');
@@ -1599,24 +1689,59 @@
             const satTime = document.getElementById('sat-time');
             const underageNotice = document.getElementById('underageNotice');
             const navUI = document.getElementById('navUI');
+            const menuBtn = document.getElementById('menuBtn');
+            const menuWindow = document.getElementById('menuWindow');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const menuClose = document.getElementById('menuClose');
+            const menuBackArrow = document.getElementById('menuBackArrow');
+            const settingsPanel = document.getElementById('settingsPanel');
+            const menuTitleSpan = document.getElementById('menuTitleText');
+            const fontSizePanel = document.getElementById('fontSizePanel');
+            const fontSizeSlider = document.getElementById('fontSizeSlider');
 
-            const CIRCUMFERENCE = 351.86;
-            let progress = 0,
-                isHolding = false,
-                animationId = null,
-                isDone = false;
-            let hintActive = true,
-                entryAnimationDone = false,
-                allContentRevealed = false;
+            // ========== 深色模式 ==========
+            let isDarkMode = localStorage.getItem('darkMode') === 'true';
+            function applyDarkMode() {
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+                const statusEl = document.getElementById('darkModeStatus');
+                if (statusEl) statusEl.textContent = isDarkMode ? '已开启' : '已关闭';
+            }
+            applyDarkMode();
+
+            // ========== 状态变量 ==========
+            let progress = 0;
+            let isHolding = false;
+            let animationId = null;
+            let isDone = false;
+            let hintActive = true;
+            let entryAnimationDone = false;
+            let allContentRevealed = false;
             let guideActive = false;
             let guideSavedScrollY = 0;
             let guideScrollDisabled = false;
+            let isMenuOpen = false;
+            let isInSettings = false;
+            let btnRect = null;
+            let savedScrollY = 0;
+            let activeEl = null;
+            let clearTimer = null;
+            let lastInteractionTime = 0;
+            let guideCurrentStep = 0;
+            let guideScrollAnimationId = null;
+            let isMenuAnimating = false;
+            let menuClosePending = null;
 
+            // ========== 字体大小 ==========
             const savedFontSize = localStorage.getItem('siteFontSize') || '100';
             document.documentElement.style.fontSize = savedFontSize + '%';
-            document.getElementById('fontSizeSlider').value = savedFontSize;
+            fontSizeSlider.value = savedFontSize;
             document.body.classList.add('body-locked');
 
+            // ========== Splash 提示 ==========
             function addHint(x, y) {
                 if (!hintActive) return;
                 const el = document.createElement('div');
@@ -1625,21 +1750,26 @@
                 el.style.left = x + 'px';
                 el.style.top = y + 'px';
                 el.style.transform =
-                `translate(calc(-50% + ${(Math.random()-0.5)*60}px), calc(-50% + ${(Math.random()-0.5)*60}px))`;
+                    `translate(calc(-50% + ${(Math.random()-0.5)*60}px), calc(-50% + ${(Math.random()-0.5)*60}px))`;
                 hintContainer.appendChild(el);
             }
 
-            function clearAllHints() { hintContainer.innerHTML = ''; }
+            function clearAllHints() {
+                hintContainer.innerHTML = '';
+            }
 
             function handleSplashClick(e) {
                 if (!splash || splash.classList.contains('hide')) return;
                 if (e.target.closest('.ring-container') || e.target.closest('.center-btn')) return;
-                const x = e.clientX || e.touches?.[0]?.clientX || 0,
-                    y = e.clientY || e.touches?.[0]?.clientY || 0;
+                const x = e.clientX || e.touches?.[0]?.clientX || 0;
+                const y = e.clientY || e.touches?.[0]?.clientY || 0;
                 addHint(x, y);
             }
             document.addEventListener('click', handleSplashClick);
             document.addEventListener('touchstart', handleSplashClick, { passive: true });
+
+            // ========== Splash 环形进度 ==========
+            const CIRCUMFERENCE = 351.86;
 
             function resetRing() {
                 progress = 0;
@@ -1654,8 +1784,8 @@
             function updateRing() {
                 const offset = CIRCUMFERENCE - (progress / 100) * CIRCUMFERENCE;
                 ringProgress.style.strokeDashoffset = offset;
-                const scale = 1 - (progress / 100) * 0.3,
-                    size = 78 * scale;
+                const scale = 1 - (progress / 100) * 0.3;
+                const size = 78 * scale;
                 centerBtn.style.width = size + 'px';
                 centerBtn.style.height = size + 'px';
                 if (progress > 20 && progress < 100) centerBtn.textContent = Math.round(progress) + '%';
@@ -1665,21 +1795,15 @@
                 }
             }
 
-            const audio = new Audio();
-            audio.src = 'alex-morgan-chill-545522.mp3';
-            audio.loop = true;
-            audio.volume = 0.4;
-            audio.preload = 'auto';
-            audio.load();
-
             function startHold(e) {
                 e.preventDefault();
                 if (isHolding || isDone) return;
                 isHolding = true;
                 progress = 0;
                 updateRing();
-                const startTime = Date.now(),
-                    DURATION = 2200;
+                playClickSound();
+                const startTime = Date.now();
+                const DURATION = 1200;
 
                 function tick() {
                     if (!isHolding) return;
@@ -1692,7 +1816,7 @@
                             splash.classList.add('hide');
                             hintActive = false;
                             clearAllHints();
-                            audio.play().catch(() => {});
+                            bgAudio.play().catch(() => {});
                             setTimeout(() => startEntryAnimation(), 200);
                         }, 400);
                         return;
@@ -1705,10 +1829,13 @@
             function endHold(e) {
                 e.preventDefault();
                 isHolding = false;
-                if (animationId) { cancelAnimationFrame(animationId);
-                    animationId = null; }
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
                 if (progress < 100 && !isDone) resetRing();
             }
+
             ringContainer.addEventListener('mousedown', startHold);
             ringContainer.addEventListener('mouseup', endHold);
             ringContainer.addEventListener('mouseleave', endHold);
@@ -1716,7 +1843,38 @@
             ringContainer.addEventListener('touchend', endHold);
             ringContainer.addEventListener('touchcancel', endHold);
 
+            // ========== 返回按钮 ==========
+            document.getElementById('backBtn').addEventListener('click', function() {
+                bgAudio.pause();
+                bgAudio.currentTime = 0;
+                splash.classList.remove('hide');
+                document.body.classList.add('body-locked');
+                resetRing();
+                pageContainer.classList.add('no-frame');
+                pageContainer.classList.remove('content-ready');
+                entryTitleFinal.classList.add('hidden-init');
+                entryTitleFinal.classList.remove('visible');
+                satTime.classList.add('hidden-init');
+                satTime.classList.remove('visible');
+                underageNotice.classList.add('hidden-init');
+                underageNotice.classList.remove('visible');
+                navUI.classList.remove('visible');
+                document.querySelectorAll('.animate-item').forEach(el => el.classList.remove('visible'));
+                window.scrollTo(0, 0);
+                entryAnimationDone = false;
+                allContentRevealed = false;
+                hintActive = true;
+                progress = 0;
+                isDone = false;
+                isHolding = false;
+                updateRing();
+                if (isMenuOpen) closeMenu();
+            });
+
+            // ========== 入口动画 ==========
             function startEntryAnimation() {
+                document.body.classList.remove('body-locked');
+                window.scrollTo(0, 0);
                 const finalRect = entryTitleFinal.getBoundingClientRect();
                 const targetTop = finalRect.top + window.scrollY;
                 entryOverlay.style.display = 'flex';
@@ -1730,6 +1888,7 @@
                 underageNotice.classList.remove('visible');
                 navUI.classList.remove('visible');
                 document.querySelectorAll('.animate-item').forEach(el => el.classList.remove('visible'));
+
                 entryChar1.textContent = '■';
                 entryChar1.style.opacity = '0';
                 entryChar1.style.fontSize = '4rem';
@@ -1810,50 +1969,104 @@
                     entryTitleFinal.classList.add('visible');
                     setTimeout(() => entryOverlay.style.display = 'none', 500);
                 }, 4300);
-                setTimeout(() => { satTime.classList.remove('hidden-init');
-                    satTime.classList.add('visible'); }, 4500);
-                setTimeout(() => { underageNotice.classList.remove('hidden-init');
-                    underageNotice.classList.add('visible'); }, 4900);
+                setTimeout(() => {
+                    satTime.classList.remove('hidden-init');
+                    satTime.classList.add('visible');
+                }, 4500);
+                setTimeout(() => {
+                    underageNotice.classList.remove('hidden-init');
+                    underageNotice.classList.add('visible');
+                }, 4900);
                 setTimeout(() => revealAllContent(), 5200);
             }
 
             function revealAllContent() {
-    const items = document.querySelectorAll('.animate-item');
-    const main = Array.from(items).filter(el => !el.closest('#navUI') && el !== document.getElementById('signatureArea') && !el.closest('.signature'));
-    const navRelated = Array.from(items).filter(el => el === document.getElementById('signatureArea') || el.closest('.signature'));
+                const items = document.querySelectorAll('.animate-item');
+                const main = Array.from(items).filter(el => !el.closest('#navUI') && el !== document.getElementById('signatureArea') && !el.closest('.signature'));
+                const navRelated = Array.from(items).filter(el => el === document.getElementById('signatureArea') || el.closest('.signature'));
 
-    const viewportHeight = window.innerHeight;
-    let delayCounter = 0;
-    main.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < viewportHeight) {
-            setTimeout(() => el.classList.add('visible'), delayCounter * 50);
-            delayCounter++;
-        }
-    });
+                let delayCounter = 0;
+                const sortedMain = main.sort((a, b) => {
+                    const aTop = a.getBoundingClientRect().top + window.scrollY;
+                    const bTop = b.getBoundingClientRect().top + window.scrollY;
+                    return aTop - bTop;
+                });
 
-    const t = delayCounter * 50 + 200;
-    setTimeout(() => {
-        pageContainer.classList.remove('no-frame');
-        pageContainer.classList.add('content-ready');
-    }, t - 100);
+                sortedMain.forEach((el) => {
+                    setTimeout(() => {
+                        el.classList.add('visible');
+                    }, delayCounter * 40);
+                    delayCounter++;
+                });
 
-    setTimeout(() => {
-        navRelated.forEach((el, i) => setTimeout(() => el.classList.add('visible'), i * 60));
-    }, t);
+                const t = delayCounter * 40 + 150;
+                setTimeout(() => {
+                    pageContainer.classList.remove('no-frame');
+                    pageContainer.classList.add('content-ready');
+                }, t);
 
-    setTimeout(() => navUI.classList.add('visible'), t + 80);
-    setTimeout(() => {
-        allContentRevealed = true;
-        entryAnimationDone = true;
-        document.body.classList.remove('body-locked');
-        checkFirstVisit();
-    }, t + 300);
-}
+                setTimeout(() => {
+                    navRelated.forEach((el, i) => setTimeout(() => el.classList.add('visible'), i * 50));
+                }, t + 50);
 
-            function checkFirstVisit() { if (!localStorage.getItem('hasVisitedBefore')) setTimeout(
-                () => showFirstVisitModal1(), 600); }
+                setTimeout(() => navUI.classList.add('visible'), t + 100);
 
+                setTimeout(() => {
+                    document.querySelectorAll('.animate-item').forEach(el => el.classList.remove('visible'));
+                    requestAnimationFrame(() => {
+                        document.querySelectorAll('.animate-item').forEach(el => {
+                            const rect = el.getBoundingClientRect();
+                            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                                el.classList.add('visible');
+                            }
+                        });
+                    });
+                    allContentRevealed = true;
+                    entryAnimationDone = true;
+                    document.body.classList.remove('body-locked');
+                    checkFirstVisit();
+                }, t + 250);
+            }
+
+            // ========== 首次访问弹窗 ==========
+            function checkFirstVisit() {
+                if (!localStorage.getItem('hasVisitedBefore')) setTimeout(() => showFirstVisitModal1(), 600);
+            }
+
+            function showFirstVisitModal1() {
+                document.getElementById('firstVisitBackdrop').classList.add('active');
+                document.getElementById('firstVisitModal1').classList.add('active');
+                document.body.classList.add('body-locked');
+            }
+
+            function hideFirstVisitModals() {
+                document.getElementById('firstVisitBackdrop').classList.remove('active');
+                document.getElementById('firstVisitModal1').classList.remove('active');
+                document.getElementById('firstVisitModal2').classList.remove('active');
+                if (!guideActive && !document.getElementById('guideConfirmBackdrop').classList.contains('active')) {
+                    document.body.classList.remove('body-locked');
+                }
+            }
+
+            document.getElementById('fvNo').addEventListener('click', () => {
+                localStorage.setItem('hasVisitedBefore', 'true');
+                hideFirstVisitModals();
+            });
+            document.getElementById('fvYes').addEventListener('click', () => {
+                document.getElementById('firstVisitModal1').classList.remove('active');
+                setTimeout(() => document.getElementById('firstVisitModal2').classList.add('active'), 300);
+            });
+            document.getElementById('fvTeachNo').addEventListener('click', () => {
+                localStorage.setItem('hasVisitedBefore', 'true');
+                hideFirstVisitModals();
+            });
+            document.getElementById('fvTeachYes').addEventListener('click', () => {
+                localStorage.setItem('hasVisitedBefore', 'true');
+                hideFirstVisitModals();
+                setTimeout(() => startGuideTour(), 500);
+            });
+
+            // ========== 引导确认弹窗 ==========
             const guideConfirmBackdrop = document.getElementById('guideConfirmBackdrop');
             const guideConfirmModal = document.getElementById('guideConfirmModal');
 
@@ -1878,35 +2091,22 @@
                 openMenu();
             });
 
-            function showFirstVisitModal1() {
-                document.getElementById('firstVisitBackdrop').classList.add('active');
-                document.getElementById('firstVisitModal1').classList.add('active');
-                document.body.classList.add('body-locked');
-            }
+            // ========== 新手引导 ==========
+            const guideMaskCanvas = document.getElementById('guideMaskCanvas');
+            const ctxMask = guideMaskCanvas.getContext('2d');
+            const guideTooltip = document.getElementById('guideTooltip');
+            const guideOverlay = document.getElementById('guideOverlay');
 
-            function hideFirstVisitModals() {
-                document.getElementById('firstVisitBackdrop').classList.remove('active');
-                document.getElementById('firstVisitModal1').classList.remove('active');
-                document.getElementById('firstVisitModal2').classList.remove('active');
-                if (!guideActive && !guideConfirmBackdrop.classList.contains('active')) document.body.classList.remove(
-                    'body-locked');
-            }
-            document.getElementById('fvNo').addEventListener('click', () => { localStorage.setItem('hasVisitedBefore',
-                    'true');
-                hideFirstVisitModals(); });
-            document.getElementById('fvYes').addEventListener('click', () => { document.getElementById('firstVisitModal1')
-                    .classList.remove('active');
-                setTimeout(() => document.getElementById('firstVisitModal2').classList.add('active'), 300); });
-            document.getElementById('fvTeachNo').addEventListener('click', () => { localStorage.setItem('hasVisitedBefore',
-                    'true');
-                hideFirstVisitModals(); });
-            document.getElementById('fvTeachYes').addEventListener('click', () => { localStorage.setItem('hasVisitedBefore',
-                    'true');
-                hideFirstVisitModals();
-                setTimeout(() => startGuideTour(), 500); });
-
-            const guideMaskCanvas = document.getElementById('guideMaskCanvas'),
-                ctxMask = guideMaskCanvas.getContext('2d');
+            const guideSteps = [
+                { element: document.getElementById('overviewGrid'), text: '这里是一些个人介绍，不知道对你有没有帮助。' },
+                { element: document.getElementById('priceGrid'), text: '这是价格区域，上面说过可能会时不时变动。' },
+                { element: document.getElementById('ruleBox'), text: '这里是补差价和月卡规则，很重要哦。' },
+                { element: document.getElementById('checkList'), text: '还有一些其他须知。' },
+                { element: document.getElementById('statementBlock'), text: '这是关于保密的声明。' },
+                { element: document.getElementById('footnoteBlock'), text: '这里有碎碎念和下单提醒。' },
+                { element: document.getElementById('otherSupplement'), text: '和一些额外的补充说明。' },
+                { element: document.getElementById('contactEntry'), text: '这里是联系入口，可以点击然后添加。' }
+            ];
 
             function drawGuideMask(rect, alpha = 0.6) {
                 guideMaskCanvas.width = window.innerWidth;
@@ -1915,7 +2115,7 @@
                 ctxMask.fillStyle = `rgba(0,0,0,${alpha})`;
                 ctxMask.fillRect(0, 0, guideMaskCanvas.width, guideMaskCanvas.height);
                 if (rect) {
-                    const expand = 8;
+                    const expand = 6;
                     const x = rect.left - expand;
                     const y = rect.top - expand;
                     const w = rect.width + expand * 2;
@@ -1931,133 +2131,139 @@
                 }
             }
 
-            const guideSteps = [
-                { element: document.getElementById('overviewGrid'), text: '这里是一些个人介绍，不知道对你有没有帮助。' },
-                { element: document.getElementById('priceGrid'), text: '这是价格区域，上面说过可能会时不时变动。' },
-                { element: document.getElementById('ruleBox'), text: '这里是补差价和月卡规则，很重要哦。' },
-                { element: document.getElementById('checkList'), text: '还有一些其他须知。', scrollOffset: 0.15,
-                    tooltipAbove: true },
-                { element: document.getElementById('statementBlock'), text: '这是关于保密的声明。' },
-                { element: document.getElementById('footnoteBlock'), text: '这里有碎碎念和下单提醒。' },
-                { element: document.getElementById('otherSupplement'), text: '和一些额外的补充说明。',
-                rectAdjust: { top: 3, height: -3 } },
-                { element: document.getElementById('contactEntry'), text: '这里是联系入口，可以点击然后添加。',
-                    tooltipAbove: true }
-            ];
-            let currentStepIndex = 0;
-            let guideObserver = null;
+            function getGuideScrollBounds() {
+                const step = guideSteps[guideCurrentStep];
+                if (!step || !step.element) return { min: 0, max: 0 };
+                const el = step.element;
+                const rect = el.getBoundingClientRect();
+                const viewportH = window.innerHeight;
+                const buffer = viewportH * 0.12;
+                const minScroll = Math.max(0, rect.top + window.scrollY - buffer);
+                const maxScroll = Math.min(
+                    document.documentElement.scrollHeight - viewportH,
+                    rect.bottom + window.scrollY + buffer - viewportH
+                );
+                return { minScroll, maxScroll };
+            }
 
-            function disableScroll() {
+            function handleGuideWheel(e) {
+                if (!guideActive || !guideScrollDisabled) return;
+                const bounds = getGuideScrollBounds();
+                const currentY = window.scrollY;
+                const delta = e.deltaY;
+                if (delta > 0 && currentY >= bounds.maxScroll - 1) {
+                    e.preventDefault();
+                } else if (delta < 0 && currentY <= bounds.minScroll + 1) {
+                    e.preventDefault();
+                }
+            }
+
+            function handleGuideTouchMove(e) {
+                if (!guideActive || !guideScrollDisabled) return;
+                const touch = e.touches[0];
+                if (!touch) return;
+                const bounds = getGuideScrollBounds();
+                const currentY = window.scrollY;
+                if (currentY <= bounds.minScroll + 1 || currentY >= bounds.maxScroll - 1) {
+                    e.preventDefault();
+                }
+            }
+
+            function enableGuideScrollRestriction() {
                 if (!guideScrollDisabled) {
-                    window.addEventListener('wheel', preventScroll, { passive: false });
-                    window.addEventListener('touchmove', preventScroll, { passive: false });
+                    window.addEventListener('wheel', handleGuideWheel, { passive: false });
+                    window.addEventListener('touchmove', handleGuideTouchMove, { passive: false });
                     guideScrollDisabled = true;
                 }
             }
 
-            function enableScroll() {
-                window.removeEventListener('wheel', preventScroll);
-                window.removeEventListener('touchmove', preventScroll);
+            function disableGuideScrollRestriction() {
+                window.removeEventListener('wheel', handleGuideWheel);
+                window.removeEventListener('touchmove', handleGuideTouchMove);
                 guideScrollDisabled = false;
             }
 
-            function preventScroll(e) {
-                e.preventDefault();
-            }
-
             function startGuideTour() {
-                endGuideTour();
+                if (guideActive) return;
                 guideActive = true;
-                currentStepIndex = 0;
-                disableScroll();
+                guideCurrentStep = 0;
 
-                const guideOverlay = document.getElementById('guideOverlay');
-                const maskCanvas = document.getElementById('guideMaskCanvas');
+                document.body.classList.remove('body-locked');
                 guideOverlay.classList.add('active');
-                maskCanvas.style.display = 'block';
+                guideMaskCanvas.style.display = 'block';
                 drawGuideMask(null, 0.25);
+                enableGuideScrollRestriction();
 
-                const firstEl = guideSteps[0].element;
-                const targetY = firstEl.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.25;
-                window.scrollTo({ top: targetY, behavior: 'smooth' });
+                const firstStep = guideSteps[0];
+                const el = firstStep.element;
+                const targetY = el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.2;
+                window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
 
                 setTimeout(() => {
                     if (!guideActive) return;
-                    const step = guideSteps[0];
-                    const rect = step.element.getBoundingClientRect();
-                    if (rect.top > window.innerHeight / 2) {
-                        window.scrollTo({ top: firstEl.getBoundingClientRect().top + window.scrollY - window
-                                .innerHeight * 0.25,
-                            behavior: 'auto' });
-                    }
-                    showStepPrompt(step);
-                }, 800);
+                    showGuideStepPrompt(firstStep);
+                }, 650);
             }
 
-            function showStepPrompt(step) {
-                guideSavedScrollY = window.scrollY;
-                let rawRect = step.element.getBoundingClientRect();
-                let rect = {
-                    left: rawRect.left,
-                    top: rawRect.top,
-                    width: rawRect.width,
-                    height: rawRect.height,
-                    right: rawRect.right,
-                    bottom: rawRect.bottom
-                };
-                if (step.rectAdjust) {
-                    if (step.rectAdjust.top) rect.top += step.rectAdjust.top;
-                    if (step.rectAdjust.height) rect.height += step.rectAdjust.height;
-                    if (step.rectAdjust.left) rect.left += step.rectAdjust.left;
-                    if (step.rectAdjust.width) rect.width += step.rectAdjust.width;
-                }
-                document.body.classList.add('body-locked');
-                document.body.style.top = -guideSavedScrollY + 'px';
-
-                drawGuideMask(rect, 0.6);
-
-                const guideTooltip = document.getElementById('guideTooltip');
-                let tooltipTop;
-                if (step.tooltipAbove) {
-                    guideTooltip.style.bottom = 'auto';
-                    guideTooltip.style.top = 'auto';
-                    guideTooltip.style.left = '50%';
-                    guideTooltip.style.transform = 'translateX(-50%)';
-                    guideTooltip.querySelector('#guideTooltipText').textContent = step.text;
-                    const btnsHTML = getButtonsHTML();
-                    guideTooltip.querySelector('#guideTooltipBtns').innerHTML = btnsHTML;
-                    guideTooltip.classList.add('active');
-                    const th = guideTooltip.offsetHeight;
-                    tooltipTop = rect.top - th - 16;
-                    if (tooltipTop < 10) tooltipTop = 10;
-                    guideTooltip.style.top = tooltipTop + 'px';
+            function showGuideStepPrompt(step) {
+                let rect = step.element.getBoundingClientRect();
+                if (rect.top < -50 || rect.bottom > window.innerHeight + 50) {
+                    const targetY = step.element.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.22;
+                    window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+                    setTimeout(() => {
+                        if (!guideActive) return;
+                        rect = step.element.getBoundingClientRect();
+                        drawGuideMask(rect, 0.6);
+                        showTooltip(step.text, rect);
+                    }, 450);
                 } else {
-                    guideTooltip.style.bottom = 'auto';
+                    drawGuideMask(rect, 0.6);
+                    showTooltip(step.text, rect);
+                }
+            }
+
+            function showTooltip(text, elementRect) {
+                guideTooltip.querySelector('#guideTooltipText').textContent = text;
+                guideTooltip.querySelector('#guideTooltipBtns').innerHTML = getGuideButtonsHTML();
+
+                // 智能定位：避免与高亮元素重叠
+                if (elementRect) {
+                    const viewportH = window.innerHeight;
+                    const elementCenterY = elementRect.top + elementRect.height / 2;
+                    const tooltipHeight = guideTooltip.offsetHeight || 100;
+                    const margin = 16;
+
+                    if (elementCenterY > viewportH * 0.55) {
+                        // 元素在屏幕下方 → tooltip放在元素上方
+                        const topPos = Math.max(margin, elementRect.top - tooltipHeight - margin);
+                        guideTooltip.style.top = topPos + 'px';
+                        guideTooltip.style.bottom = 'auto';
+                    } else {
+                        // 元素在屏幕上方 → tooltip放在元素下方
+                        const bottomPos = Math.max(margin, viewportH - elementRect.bottom - margin);
+                        guideTooltip.style.bottom = bottomPos + 'px';
+                        guideTooltip.style.top = 'auto';
+                    }
+                    guideTooltip.style.left = '50%';
+                    guideTooltip.style.transform = 'translateX(-50%)';
+                } else {
+                    guideTooltip.style.bottom = '24px';
                     guideTooltip.style.top = 'auto';
                     guideTooltip.style.left = '50%';
                     guideTooltip.style.transform = 'translateX(-50%)';
-                    guideTooltip.querySelector('#guideTooltipText').textContent = step.text;
-                    const btnsHTML = getButtonsHTML();
-                    guideTooltip.querySelector('#guideTooltipBtns').innerHTML = btnsHTML;
-                    guideTooltip.classList.add('active');
-                    tooltipTop = rect.bottom + 16;
-                    if (tooltipTop + 100 > window.innerHeight) {
-                        tooltipTop = window.innerHeight - 100;
-                    }
-                    guideTooltip.style.top = tooltipTop + 'px';
                 }
-
+                guideTooltip.classList.add('active');
                 bindGuideButtons();
             }
 
-            function getButtonsHTML() {
+            function getGuideButtonsHTML() {
                 let prevHTML, nextHTML;
-                if (currentStepIndex === 0) {
+                if (guideCurrentStep === 0) {
                     prevHTML = '<button id="guidePrev">返回</button>';
                     nextHTML = '<button id="guideNext" class="btn-black">下一步</button>';
-                } else if (currentStepIndex === guideSteps.length - 1) {
+                } else if (guideCurrentStep === guideSteps.length - 1) {
                     prevHTML = '<button id="guidePrev">上一步</button>';
-                    nextHTML = '<button id="guideNext" class="btn-black">确认</button>';
+                    nextHTML = '<button id="guideNext" class="btn-black">完成</button>';
                 } else {
                     prevHTML = '<button id="guidePrev">上一步</button>';
                     nextHTML = '<button id="guideNext" class="btn-black">下一步</button>';
@@ -2069,51 +2275,43 @@
                 const nextBtn = document.getElementById('guideNext');
                 const prevBtn = document.getElementById('guidePrev');
                 if (nextBtn) {
-                    nextBtn.onclick = () => {
-                        document.getElementById('guideTooltip').classList.remove('active');
+                    nextBtn.onclick = function() {
+                        playClickSound();
+                        guideTooltip.classList.remove('active');
                         drawGuideMask(null, 0.25);
-                        document.body.classList.remove('body-locked');
-                        document.body.style.top = '';
-                        window.scrollTo(0, guideSavedScrollY);
-                        if (currentStepIndex < guideSteps.length - 1) {
-                            currentStepIndex++;
-                            const nextStep = guideSteps[currentStepIndex];
-                            const offsetRatio = nextStep.scrollOffset || 0.25;
-                            const targetY = nextStep.element.getBoundingClientRect().top + window.scrollY -
-                                window.innerHeight * offsetRatio;
-                            window.scrollTo({ top: targetY, behavior: 'smooth' });
+                        if (guideCurrentStep < guideSteps.length - 1) {
+                            guideCurrentStep++;
+                            const step = guideSteps[guideCurrentStep];
+                            const targetY = step.element.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.22;
+                            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
                             setTimeout(() => {
                                 if (!guideActive) return;
-                                showStepPrompt(nextStep);
-                            }, 800);
+                                showGuideStepPrompt(step);
+                            }, 550);
                         } else {
                             endGuideTour();
                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                            setTimeout(() => openMenu(), 600);
+                            setTimeout(() => openMenu(), 500);
                         }
                     };
                 }
                 if (prevBtn) {
-                    prevBtn.onclick = () => {
-                        document.getElementById('guideTooltip').classList.remove('active');
+                    prevBtn.onclick = function() {
+                        playClickSound();
+                        guideTooltip.classList.remove('active');
                         drawGuideMask(null, 0.25);
-                        document.body.classList.remove('body-locked');
-                        document.body.style.top = '';
-                        window.scrollTo(0, guideSavedScrollY);
-                        if (currentStepIndex === 0) {
+                        if (guideCurrentStep === 0) {
                             endGuideTour();
                             showGuideConfirm();
                         } else {
-                            currentStepIndex--;
-                            const prevStep = guideSteps[currentStepIndex];
-                            const offsetRatio = prevStep.scrollOffset || 0.25;
-                            const targetY = prevStep.element.getBoundingClientRect().top + window.scrollY -
-                                window.innerHeight * offsetRatio;
-                            window.scrollTo({ top: targetY, behavior: 'smooth' });
+                            guideCurrentStep--;
+                            const step = guideSteps[guideCurrentStep];
+                            const targetY = step.element.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.22;
+                            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
                             setTimeout(() => {
                                 if (!guideActive) return;
-                                showStepPrompt(prevStep);
-                            }, 800);
+                                showGuideStepPrompt(step);
+                            }, 550);
                         }
                     };
                 }
@@ -2121,72 +2319,107 @@
 
             function endGuideTour() {
                 guideActive = false;
-                enableScroll();
-                if (guideObserver) { guideObserver.disconnect();
-                    guideObserver = null; }
-                document.getElementById('guideOverlay').classList.remove('active');
-                document.getElementById('guideMaskCanvas').style.display = 'none';
-                document.getElementById('guideTooltip').classList.remove('active');
-                if (document.body.classList.contains('body-locked')) {
-                    document.body.classList.remove('body-locked');
-                    document.body.style.top = '';
-                    window.scrollTo(0, guideSavedScrollY);
-                }
+                disableGuideScrollRestriction();
+                guideOverlay.classList.remove('active');
+                guideMaskCanvas.style.display = 'none';
+                guideTooltip.classList.remove('active');
+                document.body.classList.remove('body-locked');
+                document.body.classList.remove('guide-active');
+                document.body.style.top = '';
             }
 
-            const menuWindow = document.getElementById('menuWindow'),
-                menuOverlay = document.getElementById('menuOverlay'),
-                menuClose = document.getElementById('menuClose'),
-                menuBtn = document.getElementById('menuBtn');
-            let btnRect = null,
-                savedScrollY = 0;
-
+            // ========== 菜单系统 ==========
             function openMenu() {
                 if (!entryAnimationDone || guideActive) return;
-                window.scrollTo(0, window.scrollY);
+                // 如果有pending的关闭动画，立即取消
+                if (menuClosePending) {
+                    clearTimeout(menuClosePending.timeout);
+                    menuWindow.removeEventListener('transitionend', menuClosePending.handler);
+                    menuClosePending = null;
+                }
+                if (isMenuAnimating) {
+                    // 中断当前动画，立即重置并重新打开
+                    resetMenuState();
+                }
+                if (isMenuOpen) return;
+
                 const rect = menuBtn.getBoundingClientRect();
                 btnRect = { top: rect.top, left: rect.left, width: rect.width, height: rect.height };
                 savedScrollY = window.scrollY;
                 menuBtn.style.opacity = '0';
                 menuBtn.style.pointerEvents = 'none';
+
                 menuWindow.style.transition = 'none';
+                menuWindow.style.display = 'flex';
                 menuWindow.style.top = rect.top + 'px';
                 menuWindow.style.left = rect.left + 'px';
                 menuWindow.style.width = rect.width + 'px';
                 menuWindow.style.height = rect.height + 'px';
-                menuWindow.style.borderRadius = '20px';
-                menuWindow.style.transform = 'scale(1)';
+                menuWindow.style.borderRadius = '0';
+                menuWindow.style.transformOrigin = 'top right';
+                menuWindow.style.transform = 'scale(0.3)';
                 menuWindow.style.opacity = '0';
                 menuWindow.style.maxWidth = rect.width + 'px';
                 menuWindow.style.maxHeight = rect.height + 'px';
                 menuWindow.style.pointerEvents = 'none';
                 menuWindow.classList.remove('expanded');
                 menuWindow.offsetHeight;
-                menuWindow.style.transition = 'all 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+
+                menuWindow.style.transition = 'all 0.45s cubic-bezier(0.25, 0.8, 0.25, 1)';
                 menuWindow.style.opacity = '1';
-                menuWindow.classList.add('expanded');
+                menuWindow.style.transform = 'scale(1)';
+                menuWindow.style.top = '50%';
+                menuWindow.style.left = '50%';
+                menuWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+                menuWindow.style.width = '420px';
                 menuWindow.style.maxWidth = '90vw';
+                menuWindow.style.height = 'auto';
                 menuWindow.style.maxHeight = '70vh';
-                menuWindow.style.pointerEvents = 'auto';
+                menuWindow.style.borderRadius = '0';
+
                 menuOverlay.classList.add('active');
                 document.body.classList.add('no-scroll');
-                document.body.style.top = -savedScrollY + 'px';
+                document.body.style.top = -window.scrollY + 'px';
                 pageContainer.style.filter = 'blur(6px)';
                 pageContainer.style.pointerEvents = 'none';
-                menuWindow.style.display = 'flex';
+
+                isMenuAnimating = true;
+                setTimeout(() => {
+                    menuWindow.style.pointerEvents = 'auto';
+                    menuWindow.classList.add('expanded');
+                    isMenuOpen = true;
+                    isMenuAnimating = false;
+                }, 480);
             }
 
             function closeMenu() {
-                if (!btnRect) { resetMenuState(); return; }
-                menuWindow.style.pointerEvents = 'none';
+                if (!isMenuOpen && !isMenuAnimating) {
+                    resetMenuState();
+                    return;
+                }
+                // 如果正在打开动画中，延迟到动画完成后关闭
+                if (isMenuAnimating && !isMenuOpen) {
+                    setTimeout(() => closeMenu(), 200);
+                    return;
+                }
+                isMenuOpen = false;
+                isMenuAnimating = true;
                 menuWindow.classList.remove('expanded');
-                menuWindow.style.transition = 'all 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+                menuWindow.style.pointerEvents = 'none';
+
+                if (!btnRect) {
+                    resetMenuState();
+                    return;
+                }
+
+                menuWindow.style.transition = 'all 0.45s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                menuWindow.style.transformOrigin = 'top right';
                 menuWindow.style.top = btnRect.top + 'px';
                 menuWindow.style.left = btnRect.left + 'px';
                 menuWindow.style.width = btnRect.width + 'px';
                 menuWindow.style.height = btnRect.height + 'px';
-                menuWindow.style.borderRadius = '20px';
-                menuWindow.style.transform = 'scale(1)';
+                menuWindow.style.borderRadius = '0';
+                menuWindow.style.transform = 'scale(0.3)';
                 menuWindow.style.opacity = '0';
                 menuWindow.style.maxWidth = btnRect.width + 'px';
                 menuWindow.style.maxHeight = btnRect.height + 'px';
@@ -2196,63 +2429,153 @@
                 window.scrollTo(0, savedScrollY);
                 pageContainer.style.filter = '';
                 pageContainer.style.pointerEvents = '';
+
                 const onEnd = function(e) {
                     if (e.target !== menuWindow) return;
                     menuWindow.removeEventListener('transitionend', onEnd);
+                    if (menuClosePending) {
+                        clearTimeout(menuClosePending.timeout);
+                        menuClosePending = null;
+                    }
                     resetMenuState();
                 };
                 menuWindow.addEventListener('transitionend', onEnd);
-                setTimeout(() => {
-                    if (!menuWindow.classList.contains('expanded') && menuWindow.style.opacity === '0') {
+                menuClosePending = {
+                    timeout: setTimeout(() => {
                         menuWindow.removeEventListener('transitionend', onEnd);
+                        if (menuClosePending) menuClosePending = null;
                         resetMenuState();
-                    }
-                }, 600);
+                    }, 550),
+                    handler: onEnd
+                };
             }
 
             function resetMenuState() {
+                isMenuOpen = false;
+                isMenuAnimating = false;
+                menuWindow.classList.remove('expanded');
                 menuWindow.style.transition = 'none';
                 menuWindow.style.top = '50%';
                 menuWindow.style.left = '50%';
                 menuWindow.style.width = '';
                 menuWindow.style.height = '';
-                menuWindow.style.borderRadius = '';
+                menuWindow.style.borderRadius = '0';
                 menuWindow.style.transform = 'translate(-50%,-50%) scale(0.7)';
                 menuWindow.style.opacity = '0';
                 menuWindow.style.maxWidth = '90vw';
                 menuWindow.style.maxHeight = '70vh';
-                menuWindow.classList.remove('expanded');
                 menuWindow.style.pointerEvents = 'none';
+                menuWindow.style.display = 'none';
                 menuBtn.style.opacity = '1';
                 menuBtn.style.pointerEvents = 'auto';
                 btnRect = null;
-                menuWindow.style.display = 'none';
+                menuOverlay.classList.remove('active');
+                if (document.body.classList.contains('no-scroll')) {
+                    document.body.classList.remove('no-scroll');
+                    document.body.style.top = '';
+                }
+                if (!guideActive && !guideConfirmBackdrop.classList.contains('active') && !document.getElementById('firstVisitBackdrop').classList.contains('active')) {
+                    if (document.body.classList.contains('body-locked')) document.body.classList.remove('body-locked');
+                }
+                pageContainer.style.filter = '';
+                pageContainer.style.pointerEvents = '';
+                isInSettings = false;
+                exitSettingsSilent();
+                if (menuClosePending) {
+                    clearTimeout(menuClosePending.timeout);
+                    menuClosePending = null;
+                }
             }
 
-            menuBtn.addEventListener('click', (e) => { e.stopPropagation(); if (menuWindow.classList.contains(
-                    'expanded')) closeMenu();
-                else openMenu(); });
-            menuClose.addEventListener('click', (e) => { e.stopPropagation();
-                closeMenu(); });
+            function exitSettingsSilent() {
+                settingsPanel.classList.remove('open');
+                settingsPanel.style.display = 'none';
+                menuTitleSpan.textContent = '菜单';
+                menuBackArrow.classList.remove('visible');
+                menuBackArrow.style.display = 'none';
+                menuClose.classList.remove('hidden-close');
+                document.querySelectorAll('.menu-item[data-action]:not(.settings-panel .menu-item)').forEach(el => {
+                    el.style.display = 'flex';
+                });
+            }
+
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isMenuOpen) closeMenu();
+                else openMenu();
+            });
+            menuClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeMenu();
+            });
             menuWindow.addEventListener('click', (e) => e.stopPropagation());
+
+            function enterSettings() {
+                isInSettings = true;
+                const originalMenuItems = menuWindow.querySelectorAll('.menu-item[data-action]:not(.settings-panel .menu-item)');
+                originalMenuItems.forEach(el => { el.style.display = 'none'; });
+                settingsPanel.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    settingsPanel.classList.add('open');
+                });
+                menuTitleSpan.classList.add('menu-title-slide', 'out');
+                setTimeout(() => {
+                    menuTitleSpan.textContent = '设置';
+                    menuTitleSpan.classList.remove('out');
+                }, 250);
+                menuClose.classList.add('hidden-close');
+                menuBackArrow.style.display = 'flex';
+                setTimeout(() => menuBackArrow.classList.add('visible'), 300);
+            }
+
+            function exitSettings() {
+                isInSettings = false;
+                settingsPanel.classList.remove('open');
+                menuTitleSpan.classList.add('menu-title-slide', 'out');
+                setTimeout(() => {
+                    menuTitleSpan.textContent = '菜单';
+                    menuTitleSpan.classList.remove('out');
+                }, 250);
+                menuBackArrow.classList.remove('visible');
+                menuClose.classList.remove('hidden-close');
+                setTimeout(() => {
+                    const originalMenuItems = menuWindow.querySelectorAll('.menu-item[data-action]:not(.settings-panel .menu-item)');
+                    originalMenuItems.forEach(el => { el.style.display = 'flex'; });
+                    settingsPanel.style.display = 'none';
+                    menuBackArrow.style.display = 'none';
+                }, 350);
+            }
+
+            menuBackArrow.addEventListener('click', function(e) {
+                e.stopPropagation();
+                playClickSound();
+                exitSettings();
+            });
+
+            // ========== 菜单项点击处理 ==========
             document.querySelectorAll('.menu-item[data-action]').forEach(item => {
                 item.addEventListener('click', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
+                    playClickSound();
                     const action = this.dataset.action;
-                    if (!menuWindow.classList.contains('expanded')) return;
-                    if (action === 'fontSize') {
+                    if (!isMenuOpen) return;
+                    if (action === 'settings') {
+                        enterSettings();
+                    } else if (action === 'fontSize') {
                         closeMenu();
-                        startFontSizeAdjust();
+                        setTimeout(() => startFontSizeAdjust(), 300);
                     } else if (action === 'guide') {
                         closeMenu();
-                        showGuideConfirm();
-                    } else if (action === 'snake') {
-                        menuWindow.style.transition = 'opacity 0.35s ease';
-                        menuWindow.style.opacity = '0';
-                        menuWindow.style.pointerEvents = 'none';
-                        setTimeout(() => startSnakeGame(), 400);
-                    } else showToast('暂未开放');
+                        setTimeout(() => showGuideConfirm(), 300);
+                    } else if (action === 'darkMode') {
+                        isDarkMode = !isDarkMode;
+                        localStorage.setItem('darkMode', isDarkMode);
+                        applyDarkMode();
+                        showToast(isDarkMode ? '深色模式已开启' : '深色模式已关闭');
+                    } else if (action === 'eyeCare' || action === 'invert' || action === 'sound' || action === 'feedback' || action === 'help' || action === 'announcement' || action === 'guestbook' || action === 'other') {
+                        showToast('暂未开放');
+                    }
                 });
             });
 
@@ -2262,33 +2585,42 @@
                 t.textContent = msg;
                 document.body.appendChild(t);
                 requestAnimationFrame(() => t.style.opacity = '1');
-                setTimeout(() => { t.style.opacity = '0';
+                setTimeout(() => {
+                    t.style.opacity = '0';
                     t.addEventListener('transitionend', () => t.remove());
-                    setTimeout(() => { if (t.parentNode) t.remove(); }, 400); }, 2000);
+                    setTimeout(() => { if (t.parentNode) t.remove(); }, 400);
+                }, 2000);
             }
 
-            const fontSizePanel = document.getElementById('fontSizePanel'),
-                fontSizeSlider = document.getElementById('fontSizeSlider');
+            // ========== 字体大小面板 ==========
+            function startFontSizeAdjust() {
+                fontSizePanel.classList.add('active');
+            }
+            document.getElementById('fontSizeCancel').addEventListener('click', () => {
+                playClickSound();
+                fontSizePanel.classList.remove('active');
+            });
+            fontSizeSlider.addEventListener('input', () => {
+                document.documentElement.style.fontSize = fontSizeSlider.value + '%';
+                localStorage.setItem('siteFontSize', fontSizeSlider.value);
+            });
+            document.getElementById('fontSizeConfirm').addEventListener('click', () => {
+                playClickSound();
+                fontSizePanel.classList.remove('active');
+            });
 
-            function startFontSizeAdjust() { fontSizePanel.classList.add('active'); }
-            document.getElementById('fontSizeCancel').addEventListener('click', () => { fontSizePanel.classList.remove(
-                    'active'); });
-            fontSizeSlider.addEventListener('input', () => { document.documentElement.style.fontSize = fontSizeSlider
-                    .value + '%';
-                localStorage.setItem('siteFontSize', fontSizeSlider.value); });
-            document.getElementById('fontSizeConfirm').addEventListener('click', () => { fontSizePanel.classList.remove(
-                    'active'); });
-
-            document.getElementById('contactBtn').addEventListener('click', () => { window.location.href =
-                    'https://qm.qq.com/q/qdMywhvfhe'; });
+            document.getElementById('contactBtn').addEventListener('click', () => {
+                playClickSound();
+                window.location.href = 'https://qm.qq.com/q/qdMywhvfhe';
+            });
 
             const overviewData = [
-                { text: '散陪 / 个人陪 / 野陪。' },
-                { text: '已成年、具体年龄拒问 <span style="font-style:italic;opacity:0.6;">(因为不熟)</span>。' },
-                { text: '无性别 / 性别拒问。' },
-                { text: '不连麦/发语音/打电话、爆照/打视频、涉三、所在地区拒问。' },
+                { text: '散陪 / 个人陪 / 野陪。不是啥都明码标价的，有时候不给钱都没什么大问题…就是相比较没收费的话，游戏上我会更在意自己的感受。' },
+                { text: '我叫非命，备注这个就好了！已经成年了、但是具体多少岁就不告知了 <span style="font-style:italic;opacity:0.6;">(这是我的隐私)</span>。' },
+                { text: '不是男孩也不是女孩，我在网上没性别（不是因为当陪玩工作者才这样，我一直这种状态在网上生活很久了）。' },
+                { text: '你好，这里不涉三：不连麦/发语音/打电话、爆照/打视频、所在地区拒问。' },
                 { text: '已读请回。' },
-                { text: '平时不会主动私信骚扰单主。' },
+                { text: '平时不会主动私信骚扰单主，但是你们随时可以来骚扰我。' },
                 { text: '<span class="highlight-note">会时不时变动价格，有时天价。</span>' },
                 { text: '不混圈。' },
                 { text: '<strong>搬我详情页（任何用途）微改需署名。</strong>', border: false }
@@ -2303,27 +2635,27 @@
                 { text: '<strong>月卡规则：</strong>下单后一个月内每日首次点单减1r。' }
             ];
             const checkData = [
-                '单前可提几乎任何要求，不会当成迷惑人或找茬；单内板可以做一切想做的、说的，允许极端内容。',
-                '默认上线后以友人身份相处，发言行为在此预设上。不混圈，但圈内要求我会照做。',
-                '不会"三恋"和弹琴。',
-                '不细分挂机、闲聊等业务，其他需求需详细说明。',
-                '完全欢迎不点单只是私信闲聊。',
-                '不属于任何团陪/平台陪，风格有明显区别；习惯团培玩法请谨慎下单。',
-                '先玩后付，结束后觉得不值可退1-2元。',
-                '单主可对外分享单内内容，但需将除建模外的个人信息打码。',
-                '装扮不多，但有武士裤。默认萌新装接到单。'
+                '单前可以提几乎任何要求，不会被我当成迷惑人或找茬；单内你也可以做一切想做的、说的。我这边的话游戏上允许你发言各种极端内容，就是自己注意一下不要被禁言。',
+                '默认上线后以友人身份相处，我单内发言行为在此预设上……唔我虽然不混圈，但你要是有“圈内”那些要求，我想我可以尝试的。',
+                '不会"三恋"和弹琴，但单内可以和我聊。',
+                '我不细分出挂机、闲聊等业务，有需求小窗详细说明，我看能不能完成。',
+                '先玩后付的。',
+                '不属于任何团陪/平台陪，风格也与这类有明显区别；习惯陪玩团的陪玩方式请谨慎选我。',
+                '先玩后付的。',
+                '单主可对外分享单内内容，但需将除建模外的我个人信息打码。',
+                '衣柜超小装扮不多，但有武士裤。无要求默认萌新装接单。'
             ];
 
             function renderOverview() {
                 document.getElementById('overviewGrid').innerHTML = overviewData.map((item, i) =>
                     `<div class="overview-item animate-item ${i%2===0?'left':'right'}" style="${item.border===false?'border-bottom:none;':''}"><span class="bullet">※</span><span class="overview-text">${item.text}</span></div>`
-                    ).join('');
+                ).join('');
             }
 
             function renderPrices() {
                 document.getElementById('priceGrid').innerHTML = priceData.map((p, i) =>
                     `<div class="price-card animate-item ${i===1?'right':'left'}"><span class="price-label">${p.label}</span><span class="price-amount">${p.amount}</span><div class="price-range">${p.range}</div></div>`
-                    ).join('');
+                ).join('');
             }
 
             function renderExtra() {
@@ -2334,34 +2666,39 @@
             function renderRules() {
                 document.getElementById('ruleBox').innerHTML = ruleData.map((r, i) =>
                     `<div class="rule-item animate-item ${i===0?'right':'left'}"><span class="rule-icon">◆</span> ${r.text}</div>`
-                    ).join('');
+                ).join('');
             }
 
             function renderChecks() {
                 document.getElementById('checkList').innerHTML = checkData.map((t, i) =>
                     `<li class="animate-item ${i%2===0?'right':'left'}" style="${i===checkData.length-1?'border-bottom:none;':''}"><span class="check-icon">☑</span>${t}</li>`
-                    ).join('');
+                ).join('');
             }
+
             renderOverview();
             renderPrices();
             renderExtra();
             renderRules();
             renderChecks();
 
+            // 更新深色模式状态显示
+            const dmStatus = document.getElementById('darkModeStatus');
+            if (dmStatus) dmStatus.textContent = isDarkMode ? '已开启' : '已关闭';
+
+            // ========== 禁止选中和右键 ==========
             document.addEventListener('selectstart', e => e.preventDefault());
             document.addEventListener('contextmenu', e => e.preventDefault());
 
-            const CLICKABLE =
-                '.overview-item,.price-card,.rule-item,.check-list li,.statement,.footnote div,.signature,.extra-row';
-            let activeEl = null,
-                clearTimer = null;
+            // ========== Q弹点击效果 ==========
+            const CLICKABLE = '.overview-item,.price-card,.rule-item,.check-list li,.statement,.footnote div,.signature,.extra-row';
 
             function clearAllEffects() {
-                document.querySelectorAll('.click-active,.squeeze').forEach(el => { el.classList.remove('click-active',
-                        'squeeze');
+                document.querySelectorAll('.click-active,.squeeze').forEach(el => {
+                    el.classList.remove('click-active', 'squeeze');
                     el.style.transform = '';
                     el.style.opacity = '';
-                    el.style.zIndex = ''; });
+                    el.style.zIndex = '';
+                });
             }
 
             function applyEffects(target) {
@@ -2370,73 +2707,113 @@
                 target.classList.add('click-active');
                 target.style.zIndex = '10';
                 const siblings = target.classList.contains('price-card') ?
-                    Array.from(target.closest('.price-grid').children).filter(c => c !== target && c.classList.contains(
-                        'price-card')) :
+                    Array.from(target.closest('.price-grid').children).filter(c => c !== target && c.classList.contains('price-card')) :
                     Array.from(target.parentElement.children).filter(c => c !== target && c.matches(CLICKABLE));
-                siblings.forEach(s => { s.classList.add('squeeze');
+                siblings.forEach(s => {
+                    s.classList.add('squeeze');
                     s.style.transform = 'scale(0.96)';
-                    s.style.opacity = '0.7'; });
+                    s.style.opacity = '0.7';
+                });
             }
-            document.addEventListener('mousedown', (e) => {
-                if (menuWindow.classList.contains('expanded') || fontSizePanel.classList
-                    .contains('active') || guideActive || guideConfirmBackdrop.classList.contains('active')) return;
-                const x = e.clientX,
-                    y = e.clientY;
+
+            function shouldIgnoreInteraction() {
+                return isMenuOpen || fontSizePanel.classList.contains('active') || guideActive || guideConfirmBackdrop.classList.contains('active') || document.getElementById('firstVisitBackdrop').classList.contains('active');
+            }
+
+            function findClickableAtPoint(x, y) {
                 let target = null;
-                document.querySelectorAll(CLICKABLE).forEach(el => { const r = el.getBoundingClientRect(); if (x >= r
-                        .left && x <= r.right && y >= r.top && y <= r.bottom) target = el; });
+                document.querySelectorAll(CLICKABLE).forEach(el => {
+                    const r = el.getBoundingClientRect();
+                    if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) target = el;
+                });
+                return target;
+            }
+
+            function onInteractionStart(x, y) {
+                if (shouldIgnoreInteraction()) return;
+                const now = Date.now();
+                if (now - lastInteractionTime < 500) return;
+                lastInteractionTime = now;
+                const target = findClickableAtPoint(x, y);
                 if (!target) return;
-                if (clearTimer) { clearTimeout(clearTimer);
-                    clearTimer = null; }
+                if (clearTimer) {
+                    clearTimeout(clearTimer);
+                    clearTimer = null;
+                }
                 applyEffects(target);
-            });
-            document.addEventListener('mouseup', () => { if (activeEl) { if (clearTimer) clearTimeout(clearTimer);
-                    clearTimer = setTimeout(() => { clearAllEffects();
+                playClickSound();
+            }
+
+            function onInteractionEnd() {
+                if (activeEl) {
+                    if (clearTimer) clearTimeout(clearTimer);
+                    clearTimer = setTimeout(() => {
+                        clearAllEffects();
                         activeEl = null;
-                        clearTimer = null; }, 400); } });
-            document.addEventListener('mouseleave', () => { if (activeEl) { if (clearTimer) clearTimeout(clearTimer);
-                    clearAllEffects();
-                    activeEl = null;
-                    clearTimer = null; } });
+                        clearTimer = null;
+                    }, 400);
+                }
+            }
 
-            const rippleCanvas = document.getElementById('ripple-grid'),
-                ctxRipple = rippleCanvas.getContext('2d');
+            document.addEventListener('mousedown', (e) => {
+                onInteractionStart(e.clientX, e.clientY);
+            });
+            document.addEventListener('mouseup', onInteractionEnd);
+            document.addEventListener('touchstart', (e) => {
+                const t = e.touches[0];
+                if (t) onInteractionStart(t.clientX, t.clientY);
+            }, { passive: true });
+            document.addEventListener('touchend', onInteractionEnd, { passive: true });
+
+            // ========== 波纹网格 ==========
+            const rippleCanvas = document.getElementById('ripple-grid');
+            const ctxRipple = rippleCanvas.getContext('2d');
             let rWidth, rHeight;
-            const fadeSpeed = 0.006,
-                maxRadius = 180,
-                gridSize = 26;
-            let touches = [],
-                lastX = null,
-                lastY = null,
-                lastTime = null;
-            const offCanvas = document.createElement('canvas'),
-                offCtx = offCanvas.getContext('2d');
+            const fadeSpeed = 0.006;
+            const maxRadius = 180;
+            const gridSize = 26;
+            let touches = [];
+            let lastX = null;
+            let lastY = null;
+            let lastTime = null;
+            const offCanvas = document.createElement('canvas');
+            const offCtx = offCanvas.getContext('2d');
 
-            function resizeRipple() { rWidth = rippleCanvas.width = window.innerWidth;
+            function resizeRipple() {
+                rWidth = rippleCanvas.width = window.innerWidth;
                 rHeight = rippleCanvas.height = window.innerHeight;
                 offCanvas.width = rWidth;
                 offCanvas.height = rHeight;
                 offCtx.fillStyle = '#faf8f5';
                 offCtx.fillRect(0, 0, rWidth, rHeight);
-                offCtx.fillStyle = '#ffffff'; for (let x = 0; x < rWidth; x += gridSize) for (let y = 0; y < rHeight; y +=
-                        gridSize)
-                    if ((Math.floor(x / gridSize) + Math.floor(y / gridSize)) % 2 === 0) offCtx.fillRect(x, y, gridSize,
-                        gridSize); }
+                offCtx.fillStyle = '#ffffff';
+                for (let x = 0; x < rWidth; x += gridSize)
+                    for (let y = 0; y < rHeight; y += gridSize)
+                        if ((Math.floor(x / gridSize) + Math.floor(y / gridSize)) % 2 === 0) offCtx.fillRect(x, y, gridSize, gridSize);
+            }
             window.addEventListener('resize', resizeRipple);
             resizeRipple();
+
             class TouchPoint {
-                constructor(x, y, s) { this.x = x;
+                constructor(x, y, s) {
+                    this.x = x;
                     this.y = y;
                     this.life = 1;
                     this.speed = s;
-                    this.radius = 30 + s * 30; }
-                update() { this.life -= fadeSpeed * (0.8 + this.speed * 0.4);
-                    this.radius += (1 + this.speed) * 1.2; if (this.radius > maxRadius) this.radius = maxRadius; }
+                    this.radius = 30 + s * 30;
+                }
+                update() {
+                    this.life -= fadeSpeed * (0.8 + this.speed * 0.4);
+                    this.radius += (1 + this.speed) * 1.2;
+                    if (this.radius > maxRadius) this.radius = maxRadius;
+                }
             }
 
             function animateRipple() {
                 ctxRipple.clearRect(0, 0, rWidth, rHeight);
-                touches.forEach(t => { t.update(); if (t.life <= 0) return;
+                touches.forEach(t => {
+                    t.update();
+                    if (t.life <= 0) return;
                     const r = t.radius;
                     ctxRipple.save();
                     ctxRipple.beginPath();
@@ -2455,299 +2832,197 @@
                     g2.addColorStop(1, 'rgba(255,255,255,0)');
                     ctxRipple.fillStyle = g2;
                     ctxRipple.fillRect(t.x - r, t.y - r, r * 2, r * 2);
-                    ctxRipple.restore(); });
+                    ctxRipple.restore();
+                });
                 touches = touches.filter(t => t.life > 0.001);
                 requestAnimationFrame(animateRipple);
             }
             animateRipple();
-            window.addEventListener('mousemove', (e) => { const x = e.clientX,
-                    y = e.clientY,
-                    now = performance.now();
-                let s = 1; if (lastX !== null) { const d = Math.sqrt((x - lastX) ** 2 + (y - lastY) ** 2),
-                        dt = now - lastTime; if (dt > 0 && dt < 200) s = Math.min(5, Math.max(0.5, d / dt * 8)); }
-                lastX = x;
-                lastY = y;
-                lastTime = now; if (!touches.some(t => Math.hypot(t.x - x, t.y - y) < 15)) { touches.push(new TouchPoint(x,
-                        y, s)); if (touches.length > 20) touches.shift(); } });
-            window.addEventListener('touchmove', (e) => { const t = e.touches[0]; if (!t) return; if (guideScrollDisabled) { e
-                        .preventDefault(); return; }
-                const x = t.clientX,
-                    y = t.clientY,
-                    now = performance.now();
-                let s = 1; if (lastX !== null) { const d = Math.sqrt((x - lastX) ** 2 + (y - lastY) ** 2),
-                        dt = now - lastTime; if (dt > 0 && dt < 200) s = Math.min(5, Math.max(0.5, d / dt * 8)); }
-                lastX = x;
-                lastY = y;
-                lastTime = now; if (!touches.some(p => Math.hypot(p.x - x, p.y - y) < 15)) { touches.push(new TouchPoint(x,
-                        y, s)); if (touches.length > 20) touches.shift(); } }, { passive: false });
 
-            const pCanvas = document.getElementById('particle-canvas'),
-                pCtx = pCanvas.getContext('2d');
+            window.addEventListener('mousemove', (e) => {
+                const x = e.clientX;
+                const y = e.clientY;
+                const now = performance.now();
+                let s = 1;
+                if (lastX !== null) {
+                    const d = Math.sqrt((x - lastX) ** 2 + (y - lastY) ** 2);
+                    const dt = now - lastTime;
+                    if (dt > 0 && dt < 200) s = Math.min(5, Math.max(0.5, d / dt * 8));
+                }
+                lastX = x;
+                lastY = y;
+                lastTime = now;
+                if (!touches.some(t => Math.hypot(t.x - x, t.y - y) < 15)) {
+                    touches.push(new TouchPoint(x, y, s));
+                    if (touches.length > 20) touches.shift();
+                }
+            });
+
+            window.addEventListener('touchmove', (e) => {
+                const t = e.touches[0];
+                if (!t) return;
+                if (guideScrollDisabled && guideActive) return;
+                const x = t.clientX;
+                const y = t.clientY;
+                const now = performance.now();
+                let s = 1;
+                if (lastX !== null) {
+                    const d = Math.sqrt((x - lastX) ** 2 + (y - lastY) ** 2);
+                    const dt = now - lastTime;
+                    if (dt > 0 && dt < 200) s = Math.min(5, Math.max(0.5, d / dt * 8));
+                }
+                lastX = x;
+                lastY = y;
+                lastTime = now;
+                if (!touches.some(p => Math.hypot(p.x - x, p.y - y) < 15)) {
+                    touches.push(new TouchPoint(x, y, s));
+                    if (touches.length > 20) touches.shift();
+                }
+            }, { passive: true });
+
+            // ========== 粒子背景 ==========
+            const pCanvas = document.getElementById('particle-canvas');
+            const pCtx = pCanvas.getContext('2d');
             let pW, pH;
             const particles = [];
 
-            function resizeP() { pW = pCanvas.width = window.innerWidth;
-                pH = pCanvas.height = window.innerHeight; }
+            function resizeP() {
+                pW = pCanvas.width = window.innerWidth;
+                pH = pCanvas.height = window.innerHeight;
+            }
             window.addEventListener('resize', resizeP);
             resizeP();
+
             class Particle {
-                constructor() { this.reset();
-                    this.y = Math.random() * pH; }
-                reset() { this.x = Math.random() * pW;
+                constructor() {
+                    this.reset();
+                    this.y = Math.random() * pH;
+                }
+                reset() {
+                    this.x = Math.random() * pW;
                     this.y = -10 - Math.random() * 20;
                     this.size = 2 + Math.random() * 5;
                     this.speed = 0.3 + Math.random() * 0.8;
                     this.opacity = 0.15 + Math.random() * 0.35;
-                    this.wind = (Math.random() - 0.5) * 0.4; }
-                update() { this.y += this.speed;
-                    this.x += this.wind + Math.sin(this.y * 0.01) * 0.1; if (this.y > pH + 20) { this.reset();
-                        this.y = -10; } if (this.x < -20) this.x = pW + 20; if (this.x > pW + 20) this.x = -20; }
-                draw() { pCtx.beginPath();
+                    this.wind = (Math.random() - 0.5) * 0.4;
+                }
+                update() {
+                    this.y += this.speed;
+                    this.x += this.wind + Math.sin(this.y * 0.01) * 0.1;
+                    if (this.y > pH + 20) {
+                        this.reset();
+                        this.y = -10;
+                    }
+                    if (this.x < -20) this.x = pW + 20;
+                    if (this.x > pW + 20) this.x = -20;
+                }
+                draw() {
+                    pCtx.beginPath();
                     pCtx.arc(this.x, this.y, this.size * 0.6, 0, Math.PI * 2);
                     pCtx.fillStyle = `rgba(180,180,185,${this.opacity})`;
                     pCtx.shadowColor = 'rgba(180,180,185,0.1)';
                     pCtx.shadowBlur = 6;
                     pCtx.fill();
-                    pCtx.shadowBlur = 0; }
+                    pCtx.shadowBlur = 0;
+                }
             }
             for (let i = 0; i < 160; i++) particles.push(new Particle());
 
-            function drawP() { pCtx.clearRect(0, 0, pW, pH);
-                particles.forEach(p => { p.update();
-                    p.draw(); });
-                requestAnimationFrame(drawP); }
+            function drawP() {
+                pCtx.clearRect(0, 0, pW, pH);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(drawP);
+            }
             drawP();
 
-            function updateSatTime() { const d = new Date();
+            // ========== 卫星时间 ==========
+            function updateSatTime() {
+                const d = new Date();
                 document.getElementById('sat-time').textContent =
-                    `设备时间 ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')} · 同步中`; }
+                    `设备时间 ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')} · 同步中`;
+            }
             updateSatTime();
             setInterval(updateSatTime, 1000);
 
+            // ========== 滚动观察器 ==========
             const allAnimItems = document.querySelectorAll('.animate-item');
-const animObserver = new IntersectionObserver((entries) => {
-    if (!entryAnimationDone) return;
-
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        } else {
-            entry.target.classList.remove('visible');
-        }
-    });
-}, { threshold: 0.15 });
-allAnimItems.forEach(el => animObserver.observe(el));
-
-            function startSnakeGame() {
-                const existingModal = document.getElementById('snakeModal');
-                if (existingModal) existingModal.remove();
-                const existingBackdrop = document.getElementById('snakeBackdrop');
-                if (existingBackdrop) existingBackdrop.remove();
-
-                const backdrop = document.createElement('div');
-                backdrop.id = 'snakeBackdrop';
-                backdrop.style.cssText =
-                    'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000002;';
-                document.body.appendChild(backdrop);
-
-                const modal = document.createElement('div');
-                modal.id = 'snakeModal';
-                modal.className = 'snake-modal';
-                modal.style.cssText =
-                    'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000003; max-height:95vh; overflow:auto;';
-                modal.innerHTML = `
-                    <div class="snake-header">
-                        <span class="snake-title">❖ HI ❖</span>
-                        <button id="snakeCloseBtn" class="snake-close-btn">
-                            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            返回
-                        </button>
-                    </div>
-                    <div class="snake-canvas-wrapper" id="snakeCanvasWrapper">
-                        <canvas id="snakeCanvas"></canvas>
-                    </div>
-                    <div class="snake-joystick-area">
-                        <div class="snake-joystick-base" id="snakeJoystickBase">
-                            <div class="snake-joystick-base-inner"></div>
-                            <div class="snake-joystick-thumb" id="snakeJoystickThumb"></div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-
-                const canvas = document.getElementById('snakeCanvas');
-                const ctx = canvas.getContext('2d');
-                const wrapper = document.getElementById('snakeCanvasWrapper');
-                const joystickBase = document.getElementById('snakeJoystickBase');
-                const thumb = document.getElementById('snakeJoystickThumb');
-
-                function resizeCanvas() {
-                    const w = wrapper.clientWidth;
-                    canvas.width = w;
-                    canvas.height = w;
-                    if (food) {
-                        food.x = Math.min(food.x, canvas.width);
-                        food.y = Math.min(food.y, canvas.height);
-                    }
-                    if (snakePositions) {
-                        snakePositions.forEach(p => {
-                            p.x = Math.min(p.x, canvas.width);
-                            p.y = Math.min(p.y, canvas.height);
-                        });
-                    }
-                }
-
-                const segments = 100;
-                const speed = 2;
-                let snakePositions = [];
-                let angle = 0;
-                let targetAngle = 0;
-                const turnSpeed = 0.08;
-                let food = { x: 100, y: 100 };
-                const foodSize = 8;
-
-                resizeCanvas();
-                for (let i = 0; i < segments; i++) {
-                    snakePositions.push({ x: canvas.width / 2 - i * 3, y: canvas.height / 2 });
-                }
-                food = { x: Math.random() * canvas.width, y: Math.random() * canvas.height };
-
-                window.addEventListener('resize', () => {
-                    resizeCanvas();
-                });
-
-                function drawSnake() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = '#0a0a0a';
-                    ctx.beginPath();
-                    ctx.arc(food.x, food.y, foodSize, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.moveTo(snakePositions[0].x, snakePositions[0].y);
-                    for (let i = 1; i < snakePositions.length; i++) {
-                        ctx.lineTo(snakePositions[i].x, snakePositions[i].y);
-                    }
-                    ctx.strokeStyle = '#0a0a0a';
-                    ctx.lineWidth = 6;
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-                    ctx.stroke();
-                    const head = snakePositions[0];
-                    const eyeAngle = angle + Math.PI / 2;
-                    const eyeDist = 4;
-                    ctx.fillStyle = '#fff';
-                    ctx.beginPath();
-                    ctx.arc(head.x + Math.cos(angle) * 2 + Math.cos(eyeAngle) * eyeDist, head.y + Math.sin(angle) * 2 + Math
-                        .sin(eyeAngle) * eyeDist, 2.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(head.x + Math.cos(angle) * 2 - Math.cos(eyeAngle) * eyeDist, head.y + Math.sin(angle) * 2 - Math
-                        .sin(eyeAngle) * eyeDist, 2.5, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                function updateSnake() {
-                    let diff = targetAngle - angle;
-                    while (diff > Math.PI) diff -= 2 * Math.PI;
-                    while (diff < -Math.PI) diff += 2 * Math.PI;
-                    angle += diff * turnSpeed;
-
-                    const head = snakePositions[0];
-                    const newHead = {
-                        x: head.x + Math.cos(angle) * speed,
-                        y: head.y + Math.sin(angle) * speed
-                    };
-                    if (newHead.x < 0) newHead.x = canvas.width;
-                    if (newHead.x > canvas.width) newHead.x = 0;
-                    if (newHead.y < 0) newHead.y = canvas.height;
-                    if (newHead.y > canvas.height) newHead.y = 0;
-
-                    snakePositions.unshift(newHead);
-                    snakePositions.pop();
-
-                    const dx = newHead.x - food.x;
-                    const dy = newHead.y - food.y;
-                    if (Math.sqrt(dx * dx + dy * dy) < foodSize + 4) {
-                        for (let i = 0; i < 3; i++) {
-                            const tail = snakePositions[snakePositions.length - 1];
-                            snakePositions.push({ x: tail.x, y: tail.y });
-                        }
-                        food = { x: Math.random() * canvas.width, y: Math.random() * canvas.height };
-                    }
-
-                    drawSnake();
-                    requestAnimationFrame(updateSnake);
-                }
-
-                let joyActive = false;
-                const maxDist = 35;
-
-                function getBaseCenter() {
-                    const r = joystickBase.getBoundingClientRect();
-                    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-                }
-                let baseCenter = getBaseCenter();
-                window.addEventListener('resize', () => { baseCenter = getBaseCenter(); });
-
-                joystickBase.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    joyActive = true;
-                    baseCenter = getBaseCenter();
-                });
-                joystickBase.addEventListener('touchmove', (e) => {
-                    if (!joyActive) return;
-                    e.preventDefault();
-                    const t = e.touches[0];
-                    const dx = t.clientX - baseCenter.x;
-                    const dy = t.clientY - baseCenter.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const clamped = Math.min(dist, maxDist);
-                    const joyAngle = Math.atan2(dy, dx);
-                    thumb.style.transform =
-                        `translate(calc(-50% + ${clamped*Math.cos(joyAngle)}px), calc(-50% + ${clamped*Math.sin(joyAngle)}px))`;
-                    if (clamped > 8) {
-                        targetAngle = joyAngle;
-                    }
-                }, { passive: false });
-                joystickBase.addEventListener('touchend', () => {
-                    joyActive = false;
-                    thumb.style.transform = 'translate(-50%, -50%)';
-                });
-
-                joystickBase.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    joyActive = true;
-                    baseCenter = getBaseCenter();
-                });
-                window.addEventListener('mousemove', (e) => {
-                    if (!joyActive) return;
-                    const dx = e.clientX - baseCenter.x;
-                    const dy = e.clientY - baseCenter.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const clamped = Math.min(dist, maxDist);
-                    const joyAngle = Math.atan2(dy, dx);
-                    thumb.style.transform =
-                        `translate(calc(-50% + ${clamped*Math.cos(joyAngle)}px), calc(-50% + ${clamped*Math.sin(joyAngle)}px))`;
-                    if (clamped > 8) {
-                        targetAngle = joyAngle;
+            const animObserver = new IntersectionObserver((entries) => {
+                if (!entryAnimationDone) return;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        entry.target.classList.remove('visible');
                     }
                 });
-                window.addEventListener('mouseup', () => {
-                    if (joyActive) {
-                        joyActive = false;
-                        thumb.style.transform = 'translate(-50%, -50%)';
-                    }
-                });
+            }, { threshold: 0, rootMargin: '0px 0px -5% 0px' });
+            allAnimItems.forEach(el => animObserver.observe(el));
 
-                document.getElementById('snakeCloseBtn').addEventListener('click', () => {
-                    backdrop.remove();
-                    modal.remove();
-                    menuWindow.style.opacity = '1';
-                    menuWindow.style.pointerEvents = 'auto';
-                });
+            // ========== 截图检测 ==========
+            const ssTexts = [
+                '？……你怎么截图啦！',
+                '你拍好了？好好确认一下吧。',
+                '这些东西…截图下来发给谁都可以哦。',
+                '为什么你拍下了这里呢？',
+                '请放在相册，好好收藏吧…',
+                '竟敢偷拍～',
+                '我就知道你会拍下来，你这个人呀……'
+            ];
+            const screenshotBackdrop = document.getElementById('screenshotBackdrop');
+            const screenshotModal = document.getElementById('screenshotModal');
+            const ssTextEl = document.getElementById('ssText');
 
-                updateSnake();
+            function showScreenshotModal() {
+                const randomText = ssTexts[Math.floor(Math.random() * ssTexts.length)];
+                ssTextEl.textContent = randomText;
+                screenshotBackdrop.classList.add('active');
+                screenshotModal.classList.add('active');
+                document.body.classList.add('body-locked');
             }
+
+            function hideScreenshotModal() {
+                screenshotBackdrop.classList.remove('active');
+                screenshotModal.classList.remove('active');
+                if (!guideActive && !guideConfirmBackdrop.classList.contains('active') && !document.getElementById('firstVisitBackdrop').classList.contains('active')) {
+                    document.body.classList.remove('body-locked');
+                }
+            }
+
+            document.getElementById('ssClose').addEventListener('click', () => {
+                playClickSound();
+                hideScreenshotModal();
+            });
+            screenshotBackdrop.addEventListener('click', hideScreenshotModal);
+
+            let screenshotTimer = null;
+            let wasHidden = false;
+            let lastVisibilityTime = Date.now();
+
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    wasHidden = true;
+                    clearTimeout(screenshotTimer);
+                    screenshotTimer = setTimeout(() => {
+                        if (!document.hidden) {
+                            wasHidden = false;
+                        }
+                    }, 500);
+                } else {
+                    if (wasHidden) {
+                        const elapsed = Date.now() - lastVisibilityTime;
+                        if (elapsed < 800) {
+                            showScreenshotModal();
+                        }
+                        wasHidden = false;
+                        clearTimeout(screenshotTimer);
+                    }
+                    lastVisibilityTime = Date.now();
+                }
+            });
+
         })();
     </script>
 </body>
